@@ -550,26 +550,57 @@ const InputField = ({ label, value, onChange, icon, step = "any" }: { label: str
 // --- Main App ---
 
 export default function App() {
-  const [category, setCategory] = useState<Category>("WEAPON");
-  const [config, setConfig] = useState<Record<Category, { targetLevel: number, prices: Prices }>>({
-    WEAPON: { targetLevel: 7, prices: { item: 1000, normalStone: 1, ivaldiStone: 140, andvariStone: 50 } },
-    SECONDARY_WEAPON: { targetLevel: 7, prices: { item: 1000, normalStone: 1, ivaldiStone: 140, andvariStone: 50 } },
-    ARMOR: { targetLevel: 7, prices: { item: 1000, normalStone: 0.2, ivaldiStone: 12, andvariStone: 9 } },
-    GAITER: { targetLevel: 7, prices: { item: 1000, normalStone: 0.2, ivaldiStone: 12, andvariStone: 9 } },
-    CLOAK: { targetLevel: 7, prices: { item: 1000, normalStone: 0.2, ivaldiStone: 12, andvariStone: 9 } },
-    ACCESSORY: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
-    BELT: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
-    WHISTLE: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
-    INSIGNIA: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
-    BRACER_SHOULDER: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
-    CHARM: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
-    BROOCH_BUCKLE: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
+  const [category, setCategory] = useState<Category>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('odin_calc_category');
+      if (saved) return saved as Category;
+    }
+    return "WEAPON";
+  });
+
+  const [config, setConfig] = useState<Record<Category, { targetLevel: number, prices: Prices }>>(() => {
+    const defaultConfig = {
+      WEAPON: { targetLevel: 7, prices: { item: 1000, normalStone: 1, ivaldiStone: 140, andvariStone: 50 } },
+      SECONDARY_WEAPON: { targetLevel: 7, prices: { item: 1000, normalStone: 1, ivaldiStone: 140, andvariStone: 50 } },
+      ARMOR: { targetLevel: 7, prices: { item: 1000, normalStone: 0.2, ivaldiStone: 12, andvariStone: 9 } },
+      GAITER: { targetLevel: 7, prices: { item: 1000, normalStone: 0.2, ivaldiStone: 12, andvariStone: 9 } },
+      CLOAK: { targetLevel: 7, prices: { item: 1000, normalStone: 0.2, ivaldiStone: 12, andvariStone: 9 } },
+      ACCESSORY: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
+      BELT: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
+      WHISTLE: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
+      INSIGNIA: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
+      BRACER_SHOULDER: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
+      CHARM: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
+      BROOCH_BUCKLE: { targetLevel: 5, prices: { item: 3000, normalStone: 0.2, ivaldiStone: 123, andvariStone: 290 } },
+    };
+
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('odin_calc_config');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          // Merge with default to handle new categories if any
+          return { ...defaultConfig, ...parsed };
+        } catch (e) {
+          console.error("Failed to parse saved config", e);
+        }
+      }
+    }
+    return defaultConfig;
   });
 
   const [strategies, setStrategies] = useState<StrategyResult[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const { targetLevel, prices } = config[category];
+
+  useEffect(() => {
+    localStorage.setItem('odin_calc_category', category);
+  }, [category]);
+
+  useEffect(() => {
+    localStorage.setItem('odin_calc_config', JSON.stringify(config));
+  }, [config]);
 
   useEffect(() => {
     const results = getStrategies(targetLevel, prices, category);
