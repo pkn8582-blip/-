@@ -115,16 +115,16 @@ const SECONDARY_RATES: Rate[] = [
 ];
 
 const GAITER_RATES: Rate[] = [
-  { level: 0, successRate: 1.0, breakRate: 0.0, plus2SuccessRate: 0.45, plus2FailRate: 0.55 },
-  { level: 1, successRate: 1.0, breakRate: 0.0, plus2SuccessRate: 0.40, plus2FailRate: 0.60 },
-  { level: 2, successRate: 1.0, breakRate: 0.0, plus2SuccessRate: 0.35, plus2FailRate: 0.65 },
-  { level: 3, successRate: 1.0, breakRate: 0.0, plus2SuccessRate: 0.30, plus2FailRate: 0.70 },
-  { level: 4, successRate: 1.0, breakRate: 0.0, plus2SuccessRate: 0.25, plus2FailRate: 0.75 },
-  { level: 5, successRate: 0.42, breakRate: 0.58, plus2SuccessRate: 0.20, plus2FailRate: 0.80 },
-  { level: 6, successRate: 0.26, breakRate: 0.74, plus2SuccessRate: 0.15, plus2FailRate: 0.85 },
-  { level: 7, successRate: 0.18, breakRate: 0.82, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
-  { level: 8, successRate: 0.13, breakRate: 0.87, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
-  { level: 9, successRate: 0.10, breakRate: 0.90, plus2SuccessRate: 0.05, plus2FailRate: 0.95 },
+  { level: 0, successRate: 1.0, breakRate: 0.0, plus2SuccessRate: 0.25, plus2FailRate: 0.75 },
+  { level: 1, successRate: 0.83, breakRate: 0.17, plus2SuccessRate: 0.20, plus2FailRate: 0.80 },
+  { level: 2, successRate: 0.44, breakRate: 0.56, plus2SuccessRate: 0.15, plus2FailRate: 0.85 },
+  { level: 3, successRate: 0.29, breakRate: 0.71, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
+  { level: 4, successRate: 0.23, breakRate: 0.77, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
+  { level: 5, successRate: 0.19, breakRate: 0.81, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
+  { level: 6, successRate: 0.16, breakRate: 0.84, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
+  { level: 7, successRate: 0.13, breakRate: 0.87, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
+  { level: 8, successRate: 0.10, breakRate: 0.90, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
+  { level: 9, successRate: 0.08, breakRate: 0.92, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
 ];
 
 const CLOAK_RATES: Rate[] = [
@@ -373,9 +373,13 @@ const getStrategies = (targetLevel: number, prices: Prices, category: Category):
   let rates = WEAPON_RATES;
   let safeLevel = 5;
 
-  if (category === 'ARMOR' || category === 'GAITER') { 
-    rates = category === 'ARMOR' ? ARMOR_RATES : GAITER_RATES; 
+  if (category === 'ARMOR') { 
+    rates = ARMOR_RATES; 
     safeLevel = 5; 
+  }
+  else if (category === 'GAITER') {
+    rates = GAITER_RATES;
+    safeLevel = 1;
   }
   else if (category === 'ACCESSORY' || category === 'BELT') { 
     rates = ACCESSORY_RATES; 
