@@ -656,7 +656,10 @@ export default function App() {
               <div className="bg-amber-500 p-1.5 rounded-lg text-slate-900">
                 <Calculator className="w-4 h-4" />
               </div>
-              <h1 className="text-base font-bold text-white tracking-tight">오딘 강화 계산기</h1>
+              <h1 className="text-base font-bold text-white tracking-tight flex items-center gap-2">
+                오딘 강화 계산기
+                <span className="text-xs text-slate-400 font-normal">ver 2026.05.29</span>
+              </h1>
             </div>
           </div>
           
