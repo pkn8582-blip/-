@@ -103,11 +103,11 @@ const ACCESSORY_RATES: Rate[] = [
 
 const SECONDARY_RATES: Rate[] = [
   { level: 0, successRate: 1.0, breakRate: 0.0, plus2SuccessRate: 0.25, plus2FailRate: 0.75 },
-  { level: 1, successRate: 0.74, breakRate: 0.26, plus2SuccessRate: 0.20, plus2FailRate: 0.80 },
-  { level: 2, successRate: 0.40, breakRate: 0.60, plus2SuccessRate: 0.15, plus2FailRate: 0.85 },
-  { level: 3, successRate: 0.29, breakRate: 0.71, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
-  { level: 4, successRate: 0.23, breakRate: 0.77, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
-  { level: 5, successRate: 0.15, breakRate: 0.85, plus2SuccessRate: 0.05, plus2FailRate: 0.95 },
+  { level: 1, successRate: 0.62, breakRate: 0.38, plus2SuccessRate: 0.20, plus2FailRate: 0.80 },
+  { level: 2, successRate: 0.36, breakRate: 0.64, plus2SuccessRate: 0.15, plus2FailRate: 0.85 },
+  { level: 3, successRate: 0.23, breakRate: 0.77, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
+  { level: 4, successRate: 0.18, breakRate: 0.82, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
+  { level: 5, successRate: 0.14, breakRate: 0.86, plus2SuccessRate: 0.10, plus2FailRate: 0.90 },
   { level: 6, successRate: 0.10, breakRate: 0.90, plus2SuccessRate: 0.05, plus2FailRate: 0.95 },
   { level: 7, successRate: 0.08, breakRate: 0.92, plus2SuccessRate: 0.05, plus2FailRate: 0.95 },
   { level: 8, successRate: 0.05, breakRate: 0.95, plus2SuccessRate: 0.05, plus2FailRate: 0.95 },
@@ -410,8 +410,8 @@ const getStrategies = (targetLevel: number, prices: Prices, category: Category):
     safeLevel = 1;
   }
   else if (category === 'SECONDARY_WEAPON') {
-    rates = WEAPON_RATES;
-    safeLevel = 5;
+    rates = SECONDARY_RATES;
+    safeLevel = 1;
   }
 
   const baseStrategies = [
@@ -658,7 +658,7 @@ export default function App() {
               </div>
               <h1 className="text-base font-bold text-white tracking-tight flex items-center gap-2">
                 오딘 강화 계산기
-                <span className="text-xs text-slate-400 font-normal">ver 2026.05.29</span>
+                <span className="text-xs text-slate-400 font-normal">ver 2026.08.07</span>
               </h1>
             </div>
           </div>
